@@ -5468,6 +5468,11 @@ int Character::weariness_level() const
     return level;
 }
 
+int Character::weariness_amount() const
+{
+    return activity_history.weariness();
+}
+
 float Character::maximum_exertion_level() const
 {
     switch( weariness_level() ) {

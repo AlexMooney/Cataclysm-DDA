@@ -2061,9 +2061,9 @@ static void draw_weary( const player &u, const catacurses::window &w, const std:
 {
     werase( w );
 
-    auto weary_pair = get_hp_bar( u.weary_threshold(), u.weariness() );
+    auto weary_pair = get_hp_bar( u.weary_threshold(), u.weariness_amount() );
     const int exertion_range = EXTRA_EXERCISE - NO_EXERCISE;
-    const int exertion = EXTRA_EXERCISE - u.maximum_exertion_level();
+    const int exertion = EXTRA_EXERCISE - u.activity_level();
     auto exertion_pair = get_hp_bar( exertion_range, exertion );
 
     const std::string weary_string = string_format( fmt_string,

@@ -2597,10 +2597,13 @@ class Character : public Creature, public visitable<Character>
         time_duration get_consume_time( const item &it );
 
         int weariness_level() const;
+        int weariness_amount() const;
         float activity_level() const;
         float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
         float maximum_exertion_level() const;
         std::string debug_weary_info() const;
+        int weary_threshold() const;
+
         // returns empty because this is avatar specific
         void add_pain_msg( int, const bodypart_id & ) const {}
         /** Returns the modifier value used for vomiting effects. */
@@ -2646,7 +2649,6 @@ class Character : public Creature, public visitable<Character>
         int healthy = 0;
         int healthy_mod = 0;
 
-        int weary_threshold() const;
         // Our bmr at no activity level
         int base_bmr() const;
 

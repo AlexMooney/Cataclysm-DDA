@@ -2057,6 +2057,56 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
     print_mana( u, w, " %s: %s %s : %s", -5, -5, 13, -5 );
 }
 
+static void draw_weary( const player &u, const catacurses::window &w, const std::string &fmt_string, const int second_column )
+{
+    werase( w );
+
+    auto weary_pair = get_hp_bar( u.weary_threshold(), u.weariness() );
+    const int exertion_range = EXTRA_EXERCISE - NO_EXERCISE;
+    const int exertion = EXTRA_EXERCISE - u.maximum_exertion_level();
+    auto exertion_pair = get_hp_bar( exertion_range, exertion );
+
+    const std::string weary_string = string_format( fmt_string,
+                                        _( "Weary" ),
+                                        colorize( weary_pair.first, weary_pair.second ),
+                                        utf8_justify( _( "Activity" ), second_column ),
+                                        colorize( exertion_pair.first, exertion_pair.second ) );
+
+    nc_color gray = c_light_gray;
+    print_colored_text( w, point_zero, gray, gray, weary_string );
+
+    int width = utf8_width( weary_pair.first );
+    for( int i = 0; i < 5 - width; i++ ) {
+        mvwprintz( w, point( 12 - i, 0 ), c_white, "." );
+    }
+    width = utf8_width( exertion_pair.first );
+    for( int i = 0; i < 5 - width; i++ ) {
+        mvwprintz( w, point( second_column + 14 - i, 0 ), c_white, "." );
+    }
+
+    wnoutrefresh( w );
+}
+
+static void draw_weary_wide( const player &u, const catacurses::window &w )
+{
+    draw_weary( u, w, " %s: %s %s: %s", 16 );
+}
+
+static void draw_weary_narrow( const player &u, const catacurses::window &w )
+{
+    draw_weary( u, w, " %s: %s %s: %s", 16 );
+}
+
+static void draw_weary_compact( const player &u, const catacurses::window &w )
+{
+    draw_weary( u, w, "%s %s %s %s", 12 );
+}
+
+static void draw_weary_classic( const player &u, const catacurses::window &w )
+{
+    draw_weary( u, w, "%s: %s %s: %s", 20 );
+}
+
 // ============
 // INITIALIZERS
 // ============
@@ -2078,6 +2128,8 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_health_classic, "Health", to_translation( "Health" ),
                                     7, 44, true ) );
     ret.emplace_back( window_panel( draw_location_classic, "Location", to_translation( "Location" ),
+                                    1, 44, true ) );
+    ret.emplace_back( window_panel( draw_weary_classic, "Weariness", to_translation( "Weariness" ),
                                     1, 44, true ) );
     ret.emplace_back( window_panel( draw_mana_classic, "Mana", to_translation( "Mana" ),
                                     1, 44, true, spell_panel ) );
@@ -2118,6 +2170,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
                                     1, 32, true ) );
     ret.emplace_back( window_panel( draw_stats, "Stats", to_translation( "Stats" ),
                                     1, 32, true ) );
+    ret.emplace_back( window_panel( draw_weary_compact, "Weariness", to_translation( "Weariness" ),
+                                    1, 32, true ) );
     ret.emplace_back( window_panel( draw_mana_compact, "Mana", to_translation( "Mana" ),
                                     1, 32, true, spell_panel ) );
     ret.emplace_back( window_panel( draw_time, "Time", to_translation( "Time" ),
@@ -2155,6 +2209,8 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( window_panel( draw_limb_narrow, "Limbs", to_translation( "Limbs" ),
                                     3, 32, true ) );
     ret.emplace_back( window_panel( draw_char_narrow, "Movement", to_translation( "Movement" ),
+                                    3, 32, true ) );
+    ret.emplace_back( window_panel( draw_weary_narrow, "Weariness", to_translation( "Weariness" ),
                                     3, 32, true ) );
     ret.emplace_back( window_panel( draw_mana_narrow, "Mana", to_translation( "Mana" ),
                                     1, 32, true, spell_panel ) );
@@ -2202,6 +2258,8 @@ static std::vector<window_panel> initialize_default_label_panels()
                                     2, 44, true ) );
     ret.emplace_back( window_panel( draw_char_wide, "Movement", to_translation( "Movement" ),
                                     2, 44, true ) );
+    ret.emplace_back( window_panel( draw_weary_wide, "Weariness", to_translation( "Weariness" ),
+                                    1, 44, true ) );
     ret.emplace_back( window_panel( draw_mana_wide, "Mana", to_translation( "Mana" ),
                                     1, 44, true, spell_panel ) );
     ret.emplace_back( window_panel( draw_stat_wide, "Stats", to_translation( "Stats" ),

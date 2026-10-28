@@ -1758,7 +1758,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         guy.add_msg_if_player( msgtype, msg, z.name() );
 
         // No direct modifier for guilt based on existing kills, ALL morale is already modified.
-        int moraleMalus = -5 * guilt_mult;
+        // Put a scalar back. Renech is dumb.
+        int moraleMalus = -5 * guilt_mult * (max_kills - kill_count) / max_kills;
         const int maxMalus = std::numeric_limits<int>::max();
         const time_duration duration = sp.duration_turns( caster );
         const time_duration decayDelay = duration / 2;
@@ -1790,7 +1791,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         }
         guy.add_morale( morale_killed_monster, moraleMalus, maxMalus, duration, decayDelay );
         // Guilt kills incur an extra point of "temporary" trauma that can be reduced over time, in addition to their point of "permanent" deadening.
-        guy.mod_trauma( 1 );
+        if( moraleMalus >= 1 )
+            guy.mod_trauma( 1 );
     }
 }
 

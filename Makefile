@@ -110,7 +110,6 @@ WARNINGS = \
   -Wunused-macros
 CXX_WARNINGS = \
   -Wnon-virtual-dtor \
-  -Wold-style-cast \
   -Woverloaded-virtual \
   -Wsuggest-override \
   -Wzero-as-null-pointer-constant \
@@ -622,9 +621,9 @@ endif
 # OSX
 ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
-  CXXFLAGS += -mmacosx-version-min=10.15
-  CFLAGS += -mmacosx-version-min=10.15
-  LDFLAGS += -mmacosx-version-min=10.15 -framework CoreFoundation -Wl,-headerpad_max_install_names
+  CXXFLAGS += -mmacosx-version-min=14.0
+  CFLAGS += -mmacosx-version-min=14.0
+  LDFLAGS += -mmacosx-version-min=14.0 -framework CoreFoundation -Wl,-headerpad_max_install_names
   # doesn't use GNU ar
   THIN_AR=0
   ifeq ($(UNIVERSAL_BINARY), 1)

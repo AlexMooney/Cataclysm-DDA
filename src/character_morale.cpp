@@ -195,6 +195,7 @@ double Character::get_modifier_for_ALL_morale() const
     if( has_flag( json_flag_NUMB ) ) {
         return 0.0; // I just don't care about anything anymore... (medical mutant)
     }
+    return 1.0; // this is dumb
 
     // Only player is bothered by guilt kills, because only player tracks them.
     if( !is_avatar() || has_flag( json_flag_PSYCHOPATH ) ||

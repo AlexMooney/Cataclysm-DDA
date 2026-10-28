@@ -720,11 +720,13 @@ void player_morale::display( int focus_eq, int pain_penalty, int sleepiness_pena
         //~This is for the crazy cataclysm mod, it is an off-beat display message for how "deadened" a Character's psyche is. It tracks whether the character "gives a shit".
         deaden_display_msg = _( "Shits given:" );
     }
-    bottom_lines.emplace_back(
-        deaden_display_msg, static_cast<int>( who.get_modifier_for_ALL_morale() * 100.0 ),
-        morale_line::number_format::percent,
-        morale_line::line_color::normal
-    );
+    if ( who.get_modifier_for_ALL_morale() != 1.0 ) {
+        bottom_lines.emplace_back(
+            deaden_display_msg, static_cast<int>( who.get_modifier_for_ALL_morale() * 100.0 ),
+            morale_line::number_format::percent,
+            morale_line::line_color::normal
+        );
+    }
     if( pain_penalty != 0 ) {
         bottom_lines.emplace_back(
             _( "Pain level:" ), -pain_penalty,

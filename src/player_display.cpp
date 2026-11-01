@@ -928,26 +928,24 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
     if( selectedSkill ) {
         const SkillLevel &level = you.get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
-        info_text = string_format( _( "%s\n%s\n%s" ), info_text,
-                                   selectedSkill->get_level_description( level.knowledgeLevel(), false ),
-                                   selectedSkill->get_level_description( level.level(), true ) );
         float level_gap = 100.0f * std::max( level.knowledgeLevel(), 1 ) / std::max( level.level(), 1 );
         if( level.knowledgeLevel() == 1 && level.level() == 0 ) {
             level_gap = 150.0f;
         }
         float learning_bonus = 100.0f * std::max( ( 1.0f + you.get_int() / 40.0f ) - 0.1f *
                                level.exercise() / level.knowledgeExperience(), 1.0f );
-        if( level.isRusty() ) {
-            info_text = string_format( _( "%s\n\nPractical level: %d (%d%%) " ), info_text,
-                                       level.level(), level.exercise() );
-            if( level.knowledgeLevel() > level.level() ) {
-                info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
-                                           level_gap );
-            } else {
-                info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
-                                           learning_bonus );
-            }
+        info_text = string_format( _( "%s\nPractical level: %d (%d%%) " ), info_text,
+                level.level(), level.exercise() );
+        if( level.knowledgeLevel() > level.level() ) {
+            info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
+                    level_gap );
+        } else if( learning_bonus > 1.0 ) {
+            info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
+                    learning_bonus );
         }
+        info_text = string_format( _( "%s\n\n%s\n%s" ), info_text,
+                                   selectedSkill->get_level_description( level.knowledgeLevel(), false ),
+                                   selectedSkill->get_level_description( level.level(), true ) );
         draw_x_info( w_info, info_text, info_line );
     }
 

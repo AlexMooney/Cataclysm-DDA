@@ -11462,10 +11462,10 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
     float corpse_volume = units::to_liter( corpse_mtype.volume );
     // in seconds
     int time_to_pulp = std::max( 1.0, ( std::pow( corpse_volume,
-                                        pow_factor ) * 1000 ) / pd.nominal_pulp_power );
+                                        pow_factor ) * 100 ) / pd.nominal_pulp_power );
     // in seconds also
     // 30 seconds for human body volume of 62.5L, scale from this
-    int min_time_to_pulp = std::max( 1.0, 30 * corpse_volume / 62.5 );
+    int min_time_to_pulp = std::max( 1.0, 3 * corpse_volume / 62.5 );
 
     // you have a hard time pulling armor to reach important parts of this monster
     if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {

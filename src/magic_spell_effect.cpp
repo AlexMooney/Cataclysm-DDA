@@ -1791,7 +1791,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         }
         guy.add_morale( morale_killed_monster, moraleMalus, maxMalus, duration, decayDelay );
         // Guilt kills incur an extra point of "temporary" trauma that can be reduced over time, in addition to their point of "permanent" deadening.
-        if( moraleMalus >= 10 )
+        if( moraleMalus <= -10 )
             guy.mod_trauma( 1 );
     }
 }

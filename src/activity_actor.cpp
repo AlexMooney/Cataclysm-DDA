@@ -13326,10 +13326,15 @@ std::string generic_entertainment_activity_actor::get_name() const
     return "gaming";
 }
 
-void vibe_activity_actor::start( player_activity &act, Character & )
+void vibe_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = to_moves<int>( vibe_duration );
     act.moves_left = act.moves_total;
+
+    if( who.calc_focus_equilibrium( false ) < 0 ) {
+        add_msg( m_bad, _( "You are in no mood for that right now." ) );
+        who.cancel_activity();
+    }
 }
 
 void vibe_activity_actor::do_turn( player_activity &act, Character &who )
@@ -13370,7 +13375,7 @@ void vibe_activity_actor::do_turn( player_activity &act, Character &who )
 void vibe_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_good, _( "You feel much better." ) );
-    who.add_morale( morale_feeling_good, 10, 40 );
+    who.add_morale( morale_feeling_good, 20, 40, 4_hours, 2_hours );
     act.set_to_null();
 }
 

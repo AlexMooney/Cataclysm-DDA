@@ -4043,7 +4043,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
             p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
                                   it->tname() );
         }
-        p->assign_activity( vibe_activity_actor( 20_minutes, item_location( *p, it ) ) );
+        p->assign_activity( vibe_activity_actor( 10_minutes, item_location( *p, it ) ) );
     }
     return 1;
 }

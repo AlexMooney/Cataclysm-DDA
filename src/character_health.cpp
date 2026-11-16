@@ -524,17 +524,17 @@ int Character::calc_focus_equilibrium( bool ignore_pain ) const
 {
     int focus_equilibrium = 100;
 
-    if( activity.id() == ACT_READ ) {
-        const item_location book = activity.targets[0];
-        if( book && book->is_book() ) {
-            const cata::value_ptr<islot_book> &bt = book->type->book;
-            // apply a penalty when we're actually learning something
-            const SkillLevel &skill_level = get_skill_level_object( bt->skill );
-            if( skill_level.can_train() && skill_level < bt->level ) {
-                focus_equilibrium -= 50;
-            }
-        }
-    }
+    // if( activity.id() == ACT_READ ) {
+    //     const item_location book = activity.targets[0];
+    //     if( book && book->is_book() ) {
+    //         const cata::value_ptr<islot_book> &bt = book->type->book;
+    //         // apply a penalty when we're actually learning something
+    //         const SkillLevel &skill_level = get_skill_level_object( bt->skill );
+    //         if( skill_level.can_train() && skill_level < bt->level ) {
+    //             focus_equilibrium -= 50;
+    //         }
+    //     }
+    // }
 
     int eff_morale = get_morale_level();
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.

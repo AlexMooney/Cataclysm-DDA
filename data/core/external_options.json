@@ -144,7 +144,7 @@
     "name": "WOUND_CHANCE",
     "//": "Probability to get a wound from taking damage.  0.25 means 25% to get a wound.",
     "stype": "float",
-    "value": 1.0
+    "value": 0.0
   },
   {
     "type": "EXTERNAL_OPTION",
